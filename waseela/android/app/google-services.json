@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "801892648386",
+    "project_id": "pactice-8b262",
+    "storage_bucket": "pactice-8b262.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801892648386:android:6ec8f4a65ddbc0fb13c25b",
+        "android_client_info": {
+          "package_name": "com.example.waseela"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "801892648386-acrju6e83p0f5v0agn3vdn37vf5edsh8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVOYOhgKBSk974COx3iWKyBU08e_BaY2g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "801892648386-acrju6e83p0f5v0agn3vdn37vf5edsh8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
