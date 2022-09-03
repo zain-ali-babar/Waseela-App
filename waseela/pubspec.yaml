@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.4.2
   cloud_firestore: ^3.3.0
+  swipeable_button_view:
 
 
 dev_dependencies:
