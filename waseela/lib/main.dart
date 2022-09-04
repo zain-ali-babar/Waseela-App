@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:waseela/pages/donor/billing_details.dart';
 import 'package:waseela/pages/donor/donor_dashboard.dart';
+import 'package:waseela/pages/donor/explore.dart';
 import 'package:waseela/pages/needy/register_need.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: DonorDashboard(),
+      home: Explore(),
     );
   }
 }
