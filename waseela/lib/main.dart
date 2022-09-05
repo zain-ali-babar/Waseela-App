@@ -22,10 +22,10 @@ class MyApp extends StatelessWidget {
       home: AnimatedSplashScreen(
         splash: Image.asset('images/waseela_eng_color.png'),
         splashIconSize: 120,
-        nextScreen: DonorDashboard(),
         splashTransition: SplashTransition.fadeTransition,
         duration: 2500,
         backgroundColor: Color(0xFF0f2d2d),
+        nextScreen: RegisterNeed(),
       ),
     );
   }

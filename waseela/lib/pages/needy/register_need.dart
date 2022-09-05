@@ -37,8 +37,11 @@ class _RegisterNeedState extends State<RegisterNeed> {
             child: Column(
               children: [
                 Container(
+                  margin: EdgeInsets.only(
+                      top: mediaQuery.size.height * 0.08,
+                      bottom: mediaQuery.size.height * 0.02),
                   height: mediaQuery.size.height * 0.15,
-                  // child: Image.asset('images/waseela_eng_color.png'),
+                  child: Image.asset('images/waseela_urdu_color.png'),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(4.0),
