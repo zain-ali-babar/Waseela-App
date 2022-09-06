@@ -4,6 +4,7 @@ import 'package:waseela/pages/donor/billing_details.dart';
 import 'package:waseela/pages/donor/donor_dashboard.dart';
 import 'package:waseela/pages/donor/explore.dart';
 import 'package:waseela/pages/needy/register_need.dart';
+import 'package:waseela/pages/select_type.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,9 +24,9 @@ class MyApp extends StatelessWidget {
         splash: Image.asset('images/waseela_eng_color.png'),
         splashIconSize: 120,
         splashTransition: SplashTransition.fadeTransition,
-        duration: 2500,
+        duration: 500,
         backgroundColor: Color(0xFF0f2d2d),
-        nextScreen: RegisterNeed(),
+        nextScreen: SelectType(),
       ),
     );
   }
