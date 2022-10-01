@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:waseela/pages/donor/billing_details.dart';
 import 'package:waseela/pages/donor/donor_dashboard.dart';
 import 'package:waseela/pages/donor/explore.dart';
+import 'package:waseela/pages/donor/register_donor.dart';
 import 'package:waseela/pages/needy/register_need.dart';
 import 'package:waseela/pages/select_type.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         splashTransition: SplashTransition.fadeTransition,
         duration: 500,
         backgroundColor: Color(0xFF0f2d2d),
-        nextScreen: SelectType(),
+        nextScreen: RegisterDonor(),
       ),
     );
   }
