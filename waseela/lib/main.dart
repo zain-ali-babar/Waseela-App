@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         splashTransition: SplashTransition.fadeTransition,
         duration: 500,
         backgroundColor: Color(0xFF0f2d2d),
-        nextScreen: RegisterDonor(),
+        nextScreen: Explore(),
       ),
     );
   }

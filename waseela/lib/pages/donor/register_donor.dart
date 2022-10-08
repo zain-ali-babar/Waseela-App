@@ -20,7 +20,7 @@ class _RegisterDonorState extends State<RegisterDonor> {
           alignment: Alignment.bottomCenter,
           child: Column(
             children: [
-              Text('Be a helpin'),
+              Text('Be a helping hand'),
               Container(
                 height: mediaQuery.size.height * 0.8,
                 decoration: BoxDecoration(

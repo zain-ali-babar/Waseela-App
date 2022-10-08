@@ -26,6 +26,34 @@ class _ExploreState extends State<Explore> {
       );
     }
 
+    var filterSelected = 'All';
+
+    Widget FilterButton(mediaQuery, name, selected) {
+      return Padding(
+          padding: EdgeInsets.all(5),
+          child: InkWell(
+            child: Container(
+              height: mediaQuery.size.height * 0.04,
+              constraints:
+                  BoxConstraints(minWidth: mediaQuery.size.width * 0.17),
+              decoration: BoxDecoration(
+                  color: name == selected ? Colors.white : Colors.transparent,
+                  border: Border.all(color: Colors.white),
+                  borderRadius: BorderRadius.circular(20)),
+              child: Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Center(
+                    child: Text(
+                  name,
+                  style: TextStyle(
+                      color:
+                          name == selected ? Color(0xFF123939) : Colors.white),
+                )),
+              ),
+            ),
+          ));
+    }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -110,6 +138,17 @@ class _ExploreState extends State<Explore> {
                     style: TextStyle(
                         color: Colors.grey,
                         fontSize: mediaQuery.size.height * 0.02),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 15),
+                  child: Row(
+                    children: [
+                      FilterButton(mediaQuery, 'All', filterSelected),
+                      FilterButton(mediaQuery, 'Study', filterSelected),
+                      FilterButton(mediaQuery, 'Loan', filterSelected),
+                      FilterButton(mediaQuery, 'Helping', filterSelected),
+                    ],
                   ),
                 )
               ],
