@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -10,6 +11,24 @@ class RegisterNeed extends StatefulWidget {
 }
 
 class _RegisterNeedState extends State<RegisterNeed> {
+  TextEditingController phoneNumber = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController country = TextEditingController();
+  TextEditingController city = TextEditingController();
+
+  void dispose() {
+    phoneNumber.dispose();
+    password.dispose();
+    name.dispose();
+    email.dispose();
+    country.dispose();
+    city.dispose();
+
+    super.dispose(); 
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
@@ -63,12 +82,13 @@ class _RegisterNeedState extends State<RegisterNeed> {
                     width: mediaQuery.size.width * 0.9,
                     height: mediaQuery.size.height * 0.05,
                     child: TextField(
+                      controller: phoneNumber,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(40.0),
                           borderSide: BorderSide(width: 1, color: Colors.white),
                         ),
-                        hintText: "Username",
+                        hintText: "Mobile Number",
                         hintStyle: TextStyle(color: Colors.grey[800]),
                       ),
                     ),
@@ -80,6 +100,7 @@ class _RegisterNeedState extends State<RegisterNeed> {
                     width: mediaQuery.size.width * 0.9,
                     height: mediaQuery.size.height * 0.05,
                     child: TextField(
+                      controller: password,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(40.0),
@@ -100,6 +121,7 @@ class _RegisterNeedState extends State<RegisterNeed> {
                     width: mediaQuery.size.width * 0.85,
                     height: mediaQuery.size.height * 0.05,
                     child: TextField(
+                      controller: name,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(
@@ -134,6 +156,7 @@ class _RegisterNeedState extends State<RegisterNeed> {
                     width: mediaQuery.size.width * 0.85,
                     height: mediaQuery.size.height * 0.05,
                     child: TextField(
+                      controller: country,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(
@@ -151,6 +174,7 @@ class _RegisterNeedState extends State<RegisterNeed> {
                     width: mediaQuery.size.width * 0.85,
                     height: mediaQuery.size.height * 0.05,
                     child: TextField(
+                      controller: city,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(
@@ -166,32 +190,35 @@ class _RegisterNeedState extends State<RegisterNeed> {
                   padding: EdgeInsets.only(top: 8.0, left: 16, bottom: 8),
                   child: SizedBox(
                     width: mediaQuery.size.width * 0.9,
-                    child: Text(
-                      'Briefly Explain what you need.',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.grey[800], fontSize: 15),
-                    ),
+                    // child: Text(
+                    //   'Briefly Explain what you need.',
+                    //   textAlign: TextAlign.left,
+                    //   style: TextStyle(color: Colors.grey[800], fontSize: 15),
+                    // ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                            left: BorderSide(width: 1.0, color: Colors.grey),
-                            bottom:
-                                BorderSide(width: 1.0, color: Colors.grey))),
-                    width: mediaQuery.size.width * 0.85,
-                    height: mediaQuery.size.height * 0.15,
-                    child: TextField(
-                      maxLines: 5,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(4.0),
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //         border: Border(
+                //             left: BorderSide(width: 1.0, color: Colors.grey),
+                //             bottom:
+                //                 BorderSide(width: 1.0, color: Colors.grey))),
+                //     width: mediaQuery.size.width * 0.85,
+                //     height: mediaQuery.size.height * 0.15,
+                //     child: TextField(
+                //       maxLines: 5,
+                //       style: TextStyle(color: Colors.white),
+                //       decoration: InputDecoration(
+                //         border: InputBorder.none,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                ElevatedButton(
+                    onPressed: () => {},
+                    child: Text("Register"))
               ],
             ),
           ),

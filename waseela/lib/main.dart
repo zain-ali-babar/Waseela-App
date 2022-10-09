@@ -1,14 +1,20 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:waseela/pages/donor/billing_details.dart';
-import 'package:waseela/pages/donor/donor_dashboard.dart';
-import 'package:waseela/pages/donor/explore.dart';
-import 'package:waseela/pages/donor/register_donor.dart';
-import 'package:waseela/pages/needy/register_need.dart';
+import 'package:waseela/pages/billing_details.dart';
+import 'package:waseela/pages/donor_dashboard.dart';
+import 'package:waseela/pages/explore.dart';
+import 'package:waseela/pages/login_screen.dart';
+import 'package:waseela/pages/register_donor.dart';
+import 'package:waseela/pages/register_need.dart';
 import 'package:waseela/pages/select_type.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-void main() {
-  runApp(const MyApp());
+
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -27,7 +33,16 @@ class MyApp extends StatelessWidget {
         splashTransition: SplashTransition.fadeTransition,
         duration: 500,
         backgroundColor: Color(0xFF0f2d2d),
-        nextScreen: Explore(),
+        nextScreen: LoginScreen(),
+        // nextScreen: StreamBuilder<User?>(
+        //   builder: (context, snapshot) {
+        //     if (snapshot.hasData) {
+        //       return Explore();
+        //     } else {
+        //       return RegisterNeed();
+        //     }
+        //   },
+        // ),
       ),
     );
   }
