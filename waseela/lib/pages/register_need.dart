@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:waseela/pages/otp.dart';
 
 class RegisterNeed extends StatefulWidget {
   const RegisterNeed({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class _RegisterNeedState extends State<RegisterNeed> {
     country.dispose();
     city.dispose();
 
-    super.dispose(); 
+    super.dispose();
   }
 
   @override
@@ -217,7 +218,11 @@ class _RegisterNeedState extends State<RegisterNeed> {
                 //   ),
                 // ),
                 ElevatedButton(
-                    onPressed: () => {},
+                    onPressed: () async {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              OTPScreen(phoneNumber.text.trim())));
+                    },
                     child: Text("Register"))
               ],
             ),
@@ -227,3 +232,19 @@ class _RegisterNeedState extends State<RegisterNeed> {
     );
   }
 }
+
+// Future signup(num) async {
+//   FirebaseAuth auth = FirebaseAuth.instance;
+//   await FirebaseAuth.instance.verifyPhoneNumber(
+//     phoneNumber: num,
+//     verificationCompleted: (PhoneAuthCredential credential) async {
+//     // ANDROID ONLY!
+
+//     // Sign the user in (or link) with the auto-generated credential
+//     await auth.signInWithCredential(credential);
+//   },
+//     verificationFailed: (FirebaseAuthException e) {},
+//     codeSent: (String verificationId, int? resendToken) {},
+//     codeAutoRetrievalTimeout: (String verificationId) {},
+//   );
+// }

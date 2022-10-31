@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore: ^3.3.0
   swipeable_button_view:
   animated_splash_screen:
+  pinput: 
 
 
 dev_dependencies:

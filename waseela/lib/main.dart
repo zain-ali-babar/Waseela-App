@@ -10,7 +10,6 @@ import 'package:waseela/pages/select_type.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -33,16 +32,16 @@ class MyApp extends StatelessWidget {
         splashTransition: SplashTransition.fadeTransition,
         duration: 500,
         backgroundColor: Color(0xFF0f2d2d),
-        nextScreen: LoginScreen(),
-        // nextScreen: StreamBuilder<User?>(
-        //   builder: (context, snapshot) {
-        //     if (snapshot.hasData) {
-        //       return Explore();
-        //     } else {
-        //       return RegisterNeed();
-        //     }
-        //   },
-        // ),
+        // nextScreen: LoginScreen(),
+        nextScreen: StreamBuilder<User?>(
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Explore();
+            } else {
+              return LoginScreen();
+            }
+          },
+        ),
       ),
     );
   }

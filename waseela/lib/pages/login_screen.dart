@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:waseela/pages/login_otp.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -91,7 +92,11 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () => signIn(phoneNumber.text.trim()),
+        onPressed: () async {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) =>
+                  LoginOTPScreen("+92${phoneNumber.text.trim()}")));
+        },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -165,13 +170,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              'Login',
+                              'Enter your Phone Number',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'OpenSans',
-                                fontSize: 30.0,
+                                fontSize: 25.0,
                                 fontWeight: FontWeight.bold,
                               ),
+                            ),
+                            SizedBox(
+                              height: mediaQuery.size.height * 0.02,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(4.0),
@@ -186,39 +194,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                       borderSide: BorderSide(
                                           width: 1, color: Colors.white),
                                     ),
-                                    hintText: "Mobile Number",
+                                    hintText: "Phone Number",
                                     hintStyle:
                                         TextStyle(color: Colors.grey[800]),
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                width: mediaQuery.size.width * 0.9,
-                                height: mediaQuery.size.height * 0.05,
-                                child: TextField(
-                                  controller: password,
-                                  decoration: InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(40.0),
-                                      borderSide: BorderSide(
-                                          width: 1, color: Colors.white),
-                                    ),
-                                    hintText: "Password",
-                                    hintStyle:
-                                        TextStyle(color: Colors.grey[800]),
-                                  ),
-                                ),
-                              ),
-                            ),
+
                             SizedBox(height: 30.0),
-                            _buildEmailTF(),
-                            SizedBox(
-                              height: 30.0,
-                            ),
-                            _buildPasswordTF(),
+                            // _buildEmailTF(),
+                            // SizedBox(
+                            //   height: 30.0,
+                            // ),
+                            // _buildPasswordTF(),
                             _buildLoginBtn()
                           ],
                         ),
@@ -280,5 +269,5 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 Future signIn(number) async {
-  await FirebaseAuth.instance.signInWithPhoneNumber(number);
+  await FirebaseAuth.instance.signInWithPhoneNumber("+92${number}");
 }
