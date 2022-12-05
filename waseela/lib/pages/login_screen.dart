@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:waseela/pages/login_otp.dart';
+import 'package:waseela/pages/otp.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -90,18 +90,18 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
+      child: ElevatedButton(
+        // elevation: 5.0,
         onPressed: () async {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) =>
-                  LoginOTPScreen("+92${phoneNumber.text.trim()}")));
+                  OTPScreen("+92${phoneNumber.text.trim()}")));
         },
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        color: Colors.white,
+        // padding: EdgeInsets.all(15.0),
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(30.0),
+        // ),
+        // color: Colors.white,
         child: Text(
           'Login',
           style: TextStyle(

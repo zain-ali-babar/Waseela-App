@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "801892648386-litpjlc419ct6ivrcfvh06lofubvrcvi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.waseela",
+            "certificate_hash": "8d65ba518873d2513052bfdf8a0a105943780c1e"
+          }
+        },
+        {
           "client_id": "801892648386-acrju6e83p0f5v0agn3vdn37vf5edsh8.apps.googleusercontent.com",
           "client_type": 3
         }

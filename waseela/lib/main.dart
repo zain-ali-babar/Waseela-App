@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         nextScreen: StreamBuilder<User?>(
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Explore();
+              return Explore(snapshot.data!.phoneNumber!);
             } else {
               return LoginScreen();
             }

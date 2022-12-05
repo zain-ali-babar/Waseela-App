@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:waseela/pages/explore.dart';
+import 'package:waseela/pages/register_need.dart';
 
 class OTPScreen extends StatefulWidget {
   final String phone;
@@ -12,9 +16,11 @@ class OTPScreen extends StatefulWidget {
 
 class _OTPScreenState extends State<OTPScreen> {
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
-  String? _verificationCode;
+  late String verificationCode = "";
   final pinputFocusNode = FocusNode();
   final TextEditingController _pinPutController = TextEditingController();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   final defaultPinTheme = PinTheme(
     width: 56,
@@ -28,6 +34,63 @@ class _OTPScreenState extends State<OTPScreen> {
       borderRadius: BorderRadius.circular(20),
     ),
   );
+
+  _verifyPhone() async {
+    print("Verifying number");
+    await auth.verifyPhoneNumber(
+        phoneNumber: widget.phone,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          print("Verification complete");
+
+          await auth.signInWithCredential(credential).then((value) async {
+            if (value.user != null) {
+              print("*******phone number verified******");
+              users.where("phoneNumber", isEqualTo: widget.phone).get().then(
+                (snapshot) {
+                  if (snapshot.docs.isEmpty) {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RegisterNeed(widget.phone)),
+                        (route) => false);
+                  } else {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Explore(widget.phone)),
+                        (route) => false);
+                  }
+                },
+                onError: (e) {
+                  print("error completing: $e");
+                },
+              );
+            }
+          });
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          print(e.message);
+        },
+        codeSent: (String verficationID, int? resendToken) {
+          setState(() {
+            verificationCode = verficationID;
+          });
+        },
+        codeAutoRetrievalTimeout: (String verificationID) {
+          setState(() {
+            verificationCode = verificationID;
+          });
+        },
+        timeout: Duration(seconds: 120));
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _verifyPhone();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,36 +117,44 @@ class _OTPScreenState extends State<OTPScreen> {
               controller: _pinPutController,
               pinAnimationType: PinAnimationType.fade,
               focusNode: pinputFocusNode,
-              onCompleted: (pin) async {
-                try {
-                  await FirebaseAuth.instance
-                      .signInWithCredential(PhoneAuthProvider.credential(
-                          verificationId: _verificationCode!, smsCode: pin))
-                      .then((value) async {
-                    if (value.user != null) {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => Explore()),
-                          (route) => false);
-                    }
-                  });
-                } catch (e) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(e.toString())));
-                }
-              },
+              onCompleted: null,
               onSubmitted: (pin) async {
                 try {
-                  await FirebaseAuth.instance
+                  await auth
                       .signInWithCredential(PhoneAuthProvider.credential(
-                          verificationId: _verificationCode!, smsCode: pin))
+                          verificationId: verificationCode, smsCode: pin))
                       .then((value) async {
-                    if (value.user != null) {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => Explore()),
-                          (route) => false);
-                    }
+                    print("Phone Number verified");
+                    users
+                        .where("phoneNumber", isEqualTo: widget.phone)
+                        .get()
+                        .then(
+                      (snapshot) {
+                        if (snapshot.docs.isEmpty) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      RegisterNeed(widget.phone)),
+                              (route) => false);
+                        } else {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Explore(widget.phone)),
+                              (route) => false);
+                        }
+                      },
+                      onError: (e) {
+                        print("error completing: $e");
+                      },
+                    );
+                    // if (value.user != null) {
+                    //   Navigator.pushAndRemoveUntil(
+                    //       context,
+                    //       MaterialPageRoute(builder: (context) => Explore()),
+                    //       (route) => false);
+                    // }
                   });
                 } catch (e) {
                   ScaffoldMessenger.of(context)
@@ -95,43 +166,5 @@ class _OTPScreenState extends State<OTPScreen> {
         ],
       ),
     );
-  }
-
-  _verifyPhone() async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: '+92${widget.phone}',
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          await FirebaseAuth.instance
-              .signInWithCredential(credential)
-              .then((value) async {
-            if (value.user != null) {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => Explore()),
-                  (route) => false);
-            }
-          });
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          print(e.message);
-        },
-        codeSent: (String? verficationID, int? resendToken) {
-          setState(() {
-            _verificationCode = verficationID;
-          });
-        },
-        codeAutoRetrievalTimeout: (String verificationID) {
-          setState(() {
-            _verificationCode = verificationID;
-          });
-        },
-        timeout: Duration(seconds: 120));
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _verifyPhone();
   }
 }

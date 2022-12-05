@@ -1,10 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:waseela/models/DonationCase.dart';
+
+import '../models/DonationCase.dart';
 
 class Explore extends StatefulWidget {
-  const Explore({Key? key}) : super(key: key);
+  final String phone;
+  Explore(this.phone);
+  // const Explore({Key? key}) : super(key: key);
 
   @override
   State<Explore> createState() => _ExploreState();
@@ -12,6 +18,29 @@ class Explore extends StatefulWidget {
 
 class _ExploreState extends State<Explore> {
   final user = FirebaseAuth.instance.currentUser!;
+  CollectionReference donationCase =
+      FirebaseFirestore.instance.collection('donationCase');
+  List<DonationCase> donations = [];
+
+  Future<void> getData() async {
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await donationCase.get();
+
+    // Get data from docs and convert map to List
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    // querySnapshot.docs.forEach((doc) {
+    //   donations.add(DonationCase.fromJson(doc.data()));
+    // });
+
+    print(allData);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
@@ -156,6 +185,27 @@ class _ExploreState extends State<Explore> {
               ],
             ),
           ),
+          // FutureBuilder<DocumentSnapshot>(
+          //   future: donationCase.doc(documentId).get(),
+          //   builder:
+          //       (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+
+          //     if (snapshot.hasError) {
+          //       return Text("Something went wrong");
+          //     }
+
+          //     if (snapshot.hasData && !snapshot.data!.exists) {
+          //       return Text("Document does not exist");
+          //     }
+
+          //     if (snapshot.connectionState == ConnectionState.done) {
+          //       Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+          //       return Text("Full Name: ${data['full_name']} ${data['last_name']}");
+          //     }
+
+          //     return Text("loading");
+          //   },
+          // ),
           Center(
             child: Container(
               margin: EdgeInsets.only(top: mediaQuery.size.height * 0.35),

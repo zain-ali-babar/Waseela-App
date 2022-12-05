@@ -2,10 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:waseela/pages/explore.dart';
 import 'package:waseela/pages/otp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterNeed extends StatefulWidget {
-  const RegisterNeed({Key? key}) : super(key: key);
+  final String phone;
+  RegisterNeed(this.phone);
+  // const RegisterNeed({Key? key}) : super(key: key);
 
   @override
   State<RegisterNeed> createState() => _RegisterNeedState();
@@ -18,6 +24,8 @@ class _RegisterNeedState extends State<RegisterNeed> {
   TextEditingController email = TextEditingController();
   TextEditingController country = TextEditingController();
   TextEditingController city = TextEditingController();
+  TextEditingController dateOfBirth = TextEditingController();
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   void dispose() {
     phoneNumber.dispose();
@@ -83,31 +91,13 @@ class _RegisterNeedState extends State<RegisterNeed> {
                     width: mediaQuery.size.width * 0.9,
                     height: mediaQuery.size.height * 0.05,
                     child: TextField(
-                      controller: phoneNumber,
+                      controller: email,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(40.0),
                           borderSide: BorderSide(width: 1, color: Colors.white),
                         ),
-                        hintText: "Mobile Number",
-                        hintStyle: TextStyle(color: Colors.grey[800]),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: mediaQuery.size.width * 0.9,
-                    height: mediaQuery.size.height * 0.05,
-                    child: TextField(
-                      controller: password,
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                          borderSide: BorderSide(width: 1, color: Colors.white),
-                        ),
-                        hintText: "Password",
+                        hintText: "Email",
                         hintStyle: TextStyle(color: Colors.grey[800]),
                       ),
                     ),
@@ -140,30 +130,13 @@ class _RegisterNeedState extends State<RegisterNeed> {
                     width: mediaQuery.size.width * 0.85,
                     height: mediaQuery.size.height * 0.05,
                     child: TextField(
+                      controller: dateOfBirth,
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey)),
                         border: InputBorder.none,
                         hintText: "D.O.B",
-                        hintStyle: TextStyle(color: Colors.grey[800]),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: SizedBox(
-                    width: mediaQuery.size.width * 0.85,
-                    height: mediaQuery.size.height * 0.05,
-                    child: TextField(
-                      controller: country,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey)),
-                        border: InputBorder.none,
-                        hintText: "Country",
                         hintStyle: TextStyle(color: Colors.grey[800]),
                       ),
                     ),
@@ -182,6 +155,24 @@ class _RegisterNeedState extends State<RegisterNeed> {
                             borderSide: BorderSide(color: Colors.grey)),
                         border: InputBorder.none,
                         hintText: "City",
+                        hintStyle: TextStyle(color: Colors.grey[800]),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: SizedBox(
+                    width: mediaQuery.size.width * 0.85,
+                    height: mediaQuery.size.height * 0.05,
+                    child: TextField(
+                      controller: country,
+                      style: TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey)),
+                        border: InputBorder.none,
+                        hintText: "Country",
                         hintStyle: TextStyle(color: Colors.grey[800]),
                       ),
                     ),
@@ -219,9 +210,18 @@ class _RegisterNeedState extends State<RegisterNeed> {
                 // ),
                 ElevatedButton(
                     onPressed: () async {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              OTPScreen(phoneNumber.text.trim())));
+                      users.add({
+                        'full_name': name.text,
+                        'phoneNumber': widget.phone,
+                        'email': email.text,
+                        'city': city.text,
+                        'country': country.text,
+                      }).then((value) {
+                        print("User Added");
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Explore(widget.phone)));
+                      }).catchError(
+                          (error) => print("Failed to add user: $error"));
                     },
                     child: Text("Register"))
               ],
@@ -232,19 +232,3 @@ class _RegisterNeedState extends State<RegisterNeed> {
     );
   }
 }
-
-// Future signup(num) async {
-//   FirebaseAuth auth = FirebaseAuth.instance;
-//   await FirebaseAuth.instance.verifyPhoneNumber(
-//     phoneNumber: num,
-//     verificationCompleted: (PhoneAuthCredential credential) async {
-//     // ANDROID ONLY!
-
-//     // Sign the user in (or link) with the auto-generated credential
-//     await auth.signInWithCredential(credential);
-//   },
-//     verificationFailed: (FirebaseAuthException e) {},
-//     codeSent: (String verificationId, int? resendToken) {},
-//     codeAutoRetrievalTimeout: (String verificationId) {},
-//   );
-// }
