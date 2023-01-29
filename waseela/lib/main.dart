@@ -32,16 +32,16 @@ class MyApp extends StatelessWidget {
         splashTransition: SplashTransition.fadeTransition,
         duration: 500,
         backgroundColor: Color(0xFF0f2d2d),
-        // nextScreen: LoginScreen(),
-        nextScreen: StreamBuilder<User?>(
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Explore(snapshot.data!.phoneNumber!);
-            } else {
-              return LoginScreen();
-            }
-          },
-        ),
+        nextScreen: Explore("+921234567890"),
+        // nextScreen: StreamBuilder<User?>(
+        //   builder: (context, snapshot) {
+        //     if (snapshot.hasData) {
+        //       return Explore(snapshot.data!.phoneNumber!);
+        //     } else {
+        //       return LoginScreen();
+        //     }
+        //   },
+        // ),
       ),
     );
   }

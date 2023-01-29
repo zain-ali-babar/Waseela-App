@@ -1,15 +1,16 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:waseela/models/DonationCase.dart';
+import 'package:waseela/widgets/donationListCard.dart';
 
 import '../models/DonationCase.dart';
 
 class Explore extends StatefulWidget {
   final String phone;
-  Explore(this.phone);
+  const Explore(this.phone, {super.key});
   // const Explore({Key? key}) : super(key: key);
 
   @override
@@ -23,16 +24,18 @@ class _ExploreState extends State<Explore> {
   List<DonationCase> donations = [];
 
   Future<void> getData() async {
-    // Get docs from collection reference
     QuerySnapshot querySnapshot = await donationCase.get();
 
     // Get data from docs and convert map to List
     final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-    // querySnapshot.docs.forEach((doc) {
-    //   donations.add(DonationCase.fromJson(doc.data()));
-    // });
+    // print(allData);
+    for (var element in allData) {
+      donations.add(DonationCase.fromJson(element as Map<String, dynamic>));
+    }
 
-    print(allData);
+    for (var element in donations) {
+      element.printData();
+    }
   }
 
   @override
@@ -90,7 +93,7 @@ class _ExploreState extends State<Explore> {
         children: [
           Container(
             height: mediaQuery.size.height * 0.35,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -210,18 +213,35 @@ class _ExploreState extends State<Explore> {
             child: Container(
               margin: EdgeInsets.only(top: mediaQuery.size.height * 0.35),
               width: mediaQuery.size.width * 0.85,
-              child: ListView(
-                scrollDirection: Axis.vertical,
-                children: [
-                  ListCard(mediaQuery),
-                  ListCard(mediaQuery),
-                  ListCard(mediaQuery),
-                  ListCard(mediaQuery),
-                  ListCard(mediaQuery),
-                  ListCard(mediaQuery),
-                  ListCard(mediaQuery),
-                  ListCard(mediaQuery),
-                ],
+              // child: ListView.builder(
+              //   itemCount: donations.length,
+              //   itemBuilder: ((context, index) {
+              //     return DonationListCard(donations[index]);
+              //   }),
+              // ),
+              child: StreamBuilder<QuerySnapshot>(
+                stream: donationCase.get().asStream(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Text("Loading");
+                  }
+
+                  return ListView(
+                    children:
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                          document.data()! as Map<String, dynamic>;
+                      // print("^^^^^^DATA^^^^^^^");
+                      // print(data);
+                      return DonationListCard(DonationCase.fromJson(data));
+                    }).toList(),
+                  );
+                },
               ),
             ),
           )
