@@ -1,6 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:waseela/pages/billing_details.dart';
+import 'package:waseela/pages/case_detail.dart';
 import 'package:waseela/pages/donor_dashboard.dart';
 import 'package:waseela/pages/explore.dart';
 import 'package:waseela/pages/login_screen.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         splashTransition: SplashTransition.fadeTransition,
         duration: 500,
         backgroundColor: Color(0xFF0f2d2d),
+        // nextScreen: CaseDetail(),
         nextScreen: Explore("+921234567890"),
         // nextScreen: StreamBuilder<User?>(
         //   builder: (context, snapshot) {
